@@ -1,20 +1,18 @@
-const Hello = (props) => {
-  console.log(props)
-  return (
-    <div>
-      <p>Greetings {props.name}, you are {props.age} years old</p>
-    </div>
-  )
-}
+import { useState } from 'react'
 
 const App = () => {
-  const friends = ['Ira', 'Mike']
+  const [ counter, setCounter ] = useState(0)
+
+  setTimeout(
+    () => setCounter(counter + 1),
+    1000
+  )
+
+
+  console.log('rendering...', counter)
+
   return (
-    <>
-      <p>Hello World!</p>
-      <Hello name="Nika" age = {26+10}/>
-      <p>{friends}</p>
-    </>
+    <div>{counter}</div>
   )
 }
 
