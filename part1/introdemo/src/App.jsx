@@ -1,38 +1,56 @@
-import { useState } from 'react'
+import { useState } from "react"
 
-const App = () => {
-  const [ counter, setCounter ] = useState(0)
-  console.log('rendering...', counter)
-
-  const increaseByOne = () => {
-    setCounter(counter + 1)
-    console.log('rendered before', counter)
+const History = ({ allClicks }) => {
+  if (allClicks.length === 0) {
+    return (
+      <div>
+        the app is used by pressing the buttons
+      </div>
+    )
   }
-  const decreaseByOne = () => {
-    setCounter(counter - 1)
-    console.log('renderd before', counter)
-  }
-  const setToZero = () => {
-    setCounter(0)
-    console.log('rendered before', counter)
-  }
-
   return (
-    <>
-      <Display counter={counter}/>
-      <Button text='plus' onClick={increaseByOne}/>
-      <Button text='zero' onClick={setToZero}/>
-      <Button text='minus' onClick={decreaseByOne}/>
-    </>
+    <div>
+      button press history: {allClicks.join('_')}
+    </div>
   )
 }
 
-const Display = ({ counter }) => <div>{counter}</div>
-
-const Button = ({ text, onClick }) => (
-    <button onClick={onClick}>
-      {text}
-    </button>
+const Button = ({ onClick, text }) => (
+  <button onClick={onClick}>{text}</button>
 )
+
+const App = () => {
+  const [left, setLeft] = useState(0)
+  const [right, setRight] = useState(0)
+  const [total, setTotal] = useState(0)
+  const [allClicks, setAll] = useState([])
+
+
+  const handleLeftClick = () => {
+    setAll(allClicks.concat('L'))
+    const updatedLeft = left + 1
+    setLeft(updatedLeft)
+    setTotal(updatedLeft + right)
+  }
+
+
+  const handleRightClick = () => {
+    setAll(allClicks.concat('R'))
+    const updatedRight = right + 1
+    setRight(updatedRight)
+    setTotal(left + updatedRight)
+  }
+
+  return (
+    <div>
+      {left}
+      <Button onClick={handleLeftClick} text='left'/>
+      <Button onClick={handleRightClick} text='right'/>
+      {right}
+      <p>total: {total}</p>
+      <History allClicks={allClicks}/>
+    </div>
+  )
+}
 
 export default App
