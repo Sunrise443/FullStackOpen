@@ -9,15 +9,17 @@ const Statistics = (props) => {
     )
   } else {
     return(
-      <div>
-        <StatisticsLine text={"good"} value={props.good}/>
-        <StatisticsLine text={"neutral"} value={props.neutral}/>
-        <StatisticsLine text={"bad"} value={props.bad}/>
+      <table>
+        <tbody>
+          <StatisticsLine text={"good"} value={props.good}/>
+          <StatisticsLine text={"neutral"} value={props.neutral}/>
+          <StatisticsLine text={"bad"} value={props.bad}/>
 
-        <StatisticsLine text={"all"} value={props.all}/>
-        <StatisticsLine text={"average"} value={(props.good-props.bad)/props.all}/>
-        <StatisticsLine text={"positive"} value={(props.good*100)/props.all}/>
-      </div>
+          <StatisticsLine text={"all"} value={props.all}/>
+          <StatisticsLine text={"average"} value={(props.good-props.bad)/props.all}/>
+          <StatisticsLine text={"positive"} value={(props.good*100)/props.all}/>
+        </tbody>
+      </table>
     )
   }
 }
@@ -27,7 +29,12 @@ const Button = ({ text, func }) => {
 }
 
 const StatisticsLine = ({ text, value }) => {
-  return(<p>{text} {value}</p>)
+  return(
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
+  )
 }
 
 const App = () => {
