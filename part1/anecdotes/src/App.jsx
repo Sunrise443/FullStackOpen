@@ -16,13 +16,11 @@ const App = () => {
   const [vote, setVote] = useState(Array(8).fill(0))
   let copy = [...vote]
 
-  const [mostVotes, setMostVotes] = useState(0)
   const [mostVotesIndex, setMostVotesIndex] = useState(0)
 
   const handleVote = () => {
     copy[selected] += 1
     setVote(copy)
-    setMostVotes(Math.max(...vote))
     if (Math.max(...vote) === vote[selected]) {
       setMostVotesIndex(selected)
     }
