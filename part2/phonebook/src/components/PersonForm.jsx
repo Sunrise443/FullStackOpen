@@ -10,13 +10,12 @@ const PersonForm = ({ persons, setPersons }) => {
         event.preventDefault()
         
         const exists = persons.some(person => person.name===newName)
-    
-        if (!exists) {
-          const personObject = {
-            name: newName,
-            number: newNumber
-          }
+        const personObject = {
+          name: newName,
+          number: newNumber
+        }
 
+        if (!exists) {
           personsService
             .create(personObject)
             .then(returnedNote => {
@@ -25,7 +24,22 @@ const PersonForm = ({ persons, setPersons }) => {
               setNewNumber('')
             })
         } else {
-          window.alert(`${newName} already exists`)
+          if (persons.some(person => person.number===newNumber)){
+            window.alert(`${newName} already exists`)
+          } else {
+            if (window.confirm(
+              `${newName} is already in the phonebook, do you want to replace the number?`
+            )) {
+              const perID = persons.filter((person) => person.name === newName)[0].id
+              personsService
+                .replaceNumber(perID, personObject)
+                .then(returned => {
+                  setPersons(persons.map(person => person.id === perID ? returned : person))
+                  setNewName('')
+                  setNewNumber('')
+                })
+              }
+          }
         }
     }
 

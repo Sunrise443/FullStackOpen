@@ -16,4 +16,9 @@ const delPer = id => {
     return request.then(response => response.data)
 }
 
-export default { getAll, create, delPer }
+const replaceNumber = (id, newObject) => {
+    const request = axios.put(`${baseUrl}/${id}`, newObject)
+    return request.then(response => response.data)
+}
+
+export default { getAll, create, delPer, replaceNumber }
