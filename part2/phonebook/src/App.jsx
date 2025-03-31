@@ -8,7 +8,7 @@ import personsService from './services/persons'
 
 const App = () => {
   const [filterName, setFilterName] = useState('')
-  const [persons, setPersons] = useState([]) 
+  const [persons, setPersons] = useState([])
 
   useEffect(() => {personsService
     .getAll()
@@ -23,7 +23,7 @@ const App = () => {
       <Filter filterName={filterName} setFilterName={setFilterName}/>
       <PersonForm persons={persons} setPersons={setPersons}/>
       <h2>Numbers</h2>
-      <Persons numbersToShow={numbersToShow}/>
+      <Persons numbersToShow={numbersToShow} setPersons={setPersons} persons={persons}/>
     </div>
   )
 }
