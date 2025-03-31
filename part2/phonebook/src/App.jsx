@@ -4,16 +4,16 @@ import axios from 'axios'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
+import personsService from './services/persons'
 
 const App = () => {
   const [filterName, setFilterName] = useState('')
   const [persons, setPersons] = useState([]) 
 
-  useEffect(() => {axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      setPersons(response.data)
-    })}, [])
+  useEffect(() => {personsService
+    .getAll()
+    .then(initialNotes => {setPersons(initialNotes)})
+    }, [])
 
   const numbersToShow = filterName==='' ? persons : persons.filter((person => person.name.toLowerCase().includes(filterName.toLowerCase())))
     

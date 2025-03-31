@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import personsService from '../services/persons'
+
 const PersonForm = ({ persons, setPersons }) => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
@@ -14,9 +16,14 @@ const PersonForm = ({ persons, setPersons }) => {
             name: newName,
             number: newNumber
           }
-          setPersons(persons.concat(personObject))
-          setNewName('')
-          setNewNumber('')
+
+          personsService
+            .create(personObject)
+            .then(returnedNote => {
+              setPersons(persons.concat(returnedNote))
+              setNewName('')
+              setNewNumber('')
+            })
         } else {
           window.alert(`${newName} already exists`)
         }
