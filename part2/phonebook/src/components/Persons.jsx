@@ -1,6 +1,6 @@
 import personsService from '../services/persons'
 
-const Persons = ({ numbersToShow, setPersons, persons }) => {
+const Persons = ({ numbersToShow, setPersons, persons, setMessage }) => {
     
     const delPerson = (event, person) => {
         event.preventDefault()
@@ -11,13 +11,14 @@ const Persons = ({ numbersToShow, setPersons, persons }) => {
                 .then(returned => {
                     setPersons(persons.filter((per) => per.id !== returned.id))
                 })
+                .then(() => {setMessage(`Deleted ${person.name}`)})
+                .then(() => setTimeout(() => {setMessage(null)}, 1500))
         }
     }
 
     return (
         <ul>
             {numbersToShow.map((person) =>
-                
                 <div key={person.id}>
                     <h1></h1>
                     <li>{person.name} {person.number}</li>

@@ -1,8 +1,9 @@
 import { useState } from 'react'
 
 import personsService from '../services/persons'
+import Notification from './Notification'
 
-const PersonForm = ({ persons, setPersons }) => {
+const PersonForm = ({ persons, setPersons, setMessage }) => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
 
@@ -23,9 +24,12 @@ const PersonForm = ({ persons, setPersons }) => {
               setNewName('')
               setNewNumber('')
             })
+            .then(() => {setMessage(`Added ${newName}`)})
+            .then(() => setTimeout(() => {setMessage(null)}, 1500))
         } else {
           if (persons.some(person => person.number===newNumber)){
-            window.alert(`${newName} already exists`)
+            setMessage(`${newName} already exists`)
+            setTimeout(() => {setMessage(null)}, 1500)
           } else {
             if (window.confirm(
               `${newName} is already in the phonebook, do you want to replace the number?`
@@ -38,6 +42,8 @@ const PersonForm = ({ persons, setPersons }) => {
                   setNewName('')
                   setNewNumber('')
                 })
+                .then(() => {setMessage(`Changed ${newName}`)})
+                .then(() => setTimeout(() => {setMessage(null)}, 1500))
               }
           }
         }
@@ -45,6 +51,7 @@ const PersonForm = ({ persons, setPersons }) => {
 
     return (
         <form>
+            <h1>add a new number</h1>
             <div>
             name: <input
                 value={newName} 
