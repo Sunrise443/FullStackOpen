@@ -1,6 +1,6 @@
 import personsService from '../services/persons'
 
-const Persons = ({ numbersToShow, setPersons, persons, setMessage }) => {
+const Persons = ({ numbersToShow, setPersons, persons, setMessage, setColor }) => {
     
     const delPerson = (event, person) => {
         event.preventDefault()
@@ -11,8 +11,15 @@ const Persons = ({ numbersToShow, setPersons, persons, setMessage }) => {
                 .then(returned => {
                     setPersons(persons.filter((per) => per.id !== returned.id))
                 })
-                .then(() => {setMessage(`Deleted ${person.name}`)})
+                .then(() => {
+                    setMessage(`Deleted ${person.name}`)
+                    setColor('green')
+                })
                 .then(() => setTimeout(() => {setMessage(null)}, 1500))
+                .catch(() => {
+                    setMessage(`Information of ${person.name} has already been removed from server`)
+                    setColor('red')
+                })
         }
     }
 

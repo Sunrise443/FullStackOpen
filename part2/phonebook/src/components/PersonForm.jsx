@@ -1,9 +1,8 @@
 import { useState } from 'react'
 
 import personsService from '../services/persons'
-import Notification from './Notification'
 
-const PersonForm = ({ persons, setPersons, setMessage }) => {
+const PersonForm = ({ persons, setPersons, setMessage, setColor }) => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
 
@@ -24,11 +23,19 @@ const PersonForm = ({ persons, setPersons, setMessage }) => {
               setNewName('')
               setNewNumber('')
             })
-            .then(() => {setMessage(`Added ${newName}`)})
+            .then(() => {
+              setMessage(`Added ${newName}`)
+              setColor('green')
+            })
             .then(() => setTimeout(() => {setMessage(null)}, 1500))
+            .catch(() => {
+              setMessage(`Information of ${person.name} has already been removed from server`)
+              setColor('red')
+          })
         } else {
           if (persons.some(person => person.number===newNumber)){
             setMessage(`${newName} already exists`)
+            setColor('green')
             setTimeout(() => {setMessage(null)}, 1500)
           } else {
             if (window.confirm(
@@ -42,8 +49,15 @@ const PersonForm = ({ persons, setPersons, setMessage }) => {
                   setNewName('')
                   setNewNumber('')
                 })
-                .then(() => {setMessage(`Changed ${newName}`)})
+                .then(() => {
+                  setMessage(`Changed ${newName}`)
+                  setColor('green')
+                })
                 .then(() => setTimeout(() => {setMessage(null)}, 1500))
+                .catch(() => {
+                  setMessage(`Information of ${person.name} has already been removed from server`)
+                  setColor('red')
+              })
               }
           }
         }
